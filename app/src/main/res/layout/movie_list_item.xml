@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="handlers"
+            type="com.jarettmillard.codesample.ui.adapters.MovieAdapter.Handlers" />
+
+        <variable
             name="movie"
             type="com.jarettmillard.codesample.api.models.Movie" />
     </data>
@@ -14,6 +18,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:onClick="@{(view) -> handlers.itemClicked(view, movie)}"
         android:padding="@dimen/padding">
 
         <ImageView
@@ -33,7 +39,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="@dimen/padding"
             android:text="@{`#` + String.valueOf(movie.rank())}"
-            tools:text="1" />
+            tools:text="#1" />
 
         <TextView
             android:id="@+id/title"
@@ -41,27 +47,28 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/image"
             android:layout_toStartOf="@id/rank"
-            android:text="@{movie.title()}"
+            android:text="@{@string/title_and_year(movie.title(), movie.year())}"
             android:textSize="18sp"
-            tools:text="Movie McMoveieface" />
+            tools:text="Movie McMovieface (2018)" />
 
         <TextView
-            android:id="@+id/rating"
+            android:id="@+id/imdb_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/title"
             android:layout_toEndOf="@id/image"
-            android:text="@{@string/rating(movie.imdbRating(), movie.imdbVotes())}"
-            tools:text="Rating: 9.0 (12345 votes)" />
+            android:text="@{@string/imdb_rating(movie.imdbRating(), movie.imdbVotes())}"
+            tools:text="@string/imdb_rating" />
 
         <TextView
             android:id="@+id/link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/rating"
+            android:layout_below="@id/imdb_rating"
             android:layout_toEndOf="@id/image"
-            android:text="@{movie.imdbLink()}" />
+            android:text="@{movie.imdbLink()}"
+            tools:text="https://www.imdb.com/title/tt0075860" />
     </RelativeLayout>
 </layout>

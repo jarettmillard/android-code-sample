@@ -1,6 +1,7 @@
 package com.jarettmillard.codesample.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import com.jarettmillard.codesample.R;
 import com.jarettmillard.codesample.api.ApiObserver;
 import com.jarettmillard.codesample.api.Apis;
 import com.jarettmillard.codesample.api.models.Movie;
+import com.jarettmillard.codesample.constants.IntentExtra;
 import com.jarettmillard.codesample.databinding.MainActivityBinding;
 import com.jarettmillard.codesample.ui.adapters.MovieAdapter;
 import com.jarettmillard.codesample.viewmodel.MainViewModel;
@@ -56,7 +58,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMovieAdapter = new MovieAdapter();
+        mMovieAdapter = new MovieAdapter(new MovieAdapter.Handlers() {
+            @Override
+            public void itemClicked(View view, Movie movie) {
+                startActivity(new Intent(MainActivity.this, MovieActivity.class)
+                        .putExtra(IntentExtra.MOVIE, movie)
+                );
+            }
+        });
         mBinding.recyclerView.setAdapter(mMovieAdapter);
 
         mViewModel.moviesData.load(Apis.MOVIES_API.getTopMovies(), false);
